@@ -1,0 +1,33 @@
+---
+
+---
+
+<div class="toc-container">
+	
+</div>
+
+<script>
+    import * as tocbot from 'tocbot';
+    tocbot.init({
+        tocSelector: ".toc-container",
+        contentSelector: ".markdown-body",
+        headingSelector: "h1,h2",
+        hasInnerContainers: true,
+        headingsOffset: 80,
+        scrollSmoothOffset: -80,
+        scrollSmoothDuration: 200,
+        collapseDepth: 3,
+    });
+</script>
+
+<style>
+	.toc-container {
+        position: absolute;
+        top: 100px;
+        left: calc(100% + 30px);
+        font-size: 16px;
+        z-index: 100;
+        background-color: beige;
+        padding-right: 20px;
+    }
+</style>

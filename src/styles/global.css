@@ -10,11 +10,12 @@ body {
 	padding: 20px;
 	max-width: 65ch;
 	text-align: left;
-	background-color: #eee;
+	background-color: #fbfbfb;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	line-height: 1.5;
 	color: #444;
+	padding-top: 80px;
 }
 h1,
 h2,
@@ -27,7 +28,7 @@ b {
 	color: rgb(44, 44, 44);
 }
 a {
-	color: #3273dc;
+	color: #000;
 }
 nav a {
 	margin-right: 10px;

@@ -7,5 +7,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
 	site: 'https://yaocoding007.github.io',
 	integrations: [mdx(), sitemap()],
-	base: '/'
+	base: '/',
+	markdown: {
+		
+	}
 });
