@@ -1,0 +1,40 @@
+---
+import FormattedDate from './FormattedDate.astro';
+export interface Props {
+	time: Date;
+	title: String;
+	desc: String;
+	link: any;
+}
+
+const { time, title, desc, link } = Astro.props;
+---
+
+<div class="card">
+	<div class="time">
+		<FormattedDate date={new Date(time)} />
+	</div>
+	<div class="title">
+		<a href={link}>{title}</a>
+	</div>
+	<div class="desc">{desc}</div>
+</div>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		background-color: #fff;
+		border: 1px solid #eaeaea;
+		padding: 10px;
+		box-sizing: border-box;
+		font-size: 14px;
+		border-radius: 6px;
+	}
+	.card > div {
+		margin-bottom: 10px;
+	}
+	.title {
+		font-size: 18px;
+	}
+</style>
