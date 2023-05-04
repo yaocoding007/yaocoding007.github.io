@@ -4,10 +4,8 @@ import Header from '../../components/Header.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
-
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import { sortPosts } from '../../utils'
+const posts = sortPosts((await getCollection('blog'))) 
 ---
 
 <!DOCTYPE html>

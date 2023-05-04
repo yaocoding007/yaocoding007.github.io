@@ -3,10 +3,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import database from '../database';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import { sortPosts } from '../utils'
+
+const posts = sortPosts((await getCollection('blog')))
 ---
 
 <!DOCTYPE html>
@@ -14,6 +16,18 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
+	<style>
+		ul {
+			list-style: circle
+		}
+		li {
+			font-size: 16px;
+			color: rgb(24, 24, 27);
+		}
+		.desc {
+			font-size: 14px;
+		}
+	</style>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main>
@@ -27,6 +41,29 @@ const posts = (await getCollection('blog')).sort(
 					posts.map((post) => (
 						<li>
 							<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+						</li>
+					))
+				}
+			</ul>
+			<h2 class="header">深度好文</h2>
+			<ul>
+				{
+					database.collection.map((post) => (
+						<li>
+							<a href={`${post.url}`} target="_blank">{post.title}</a>
+							<span>{post.desc}</span>
+							<FormattedDate date={new Date(post.date)} />
+							
+						</li>
+					))
+				}
+			</ul>
+			<h2 class="header">周刊推荐</h2>
+			<ul>
+				{
+					database.weekly.map((post) => (
+						<li>
+							<a href={`${post.url}`} target="_blank">{post.title}</a>
 						</li>
 					))
 				}
