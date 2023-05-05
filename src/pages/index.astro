@@ -16,18 +16,6 @@ const posts = sortPosts((await getCollection('blog')))
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<style>
-		ul {
-			list-style: circle
-		}
-		li {
-			font-size: 16px;
-			color: rgb(24, 24, 27);
-		}
-		.desc {
-			font-size: 14px;
-		}
-	</style>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main>

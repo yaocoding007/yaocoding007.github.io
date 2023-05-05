@@ -1,6 +1,7 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+import ToggleTheme from './ToggleTheme.jsx';
 ---
 
 <header>
@@ -14,6 +15,7 @@ import { SITE_TITLE } from '../consts';
 		<!-- <HeaderLink href="/collection">深度好文!IN_DEPTH</HeaderLink> -->
 		<HeaderLink href="/about">关于!ABOUT</HeaderLink>
 	</nav>
+	<ToggleTheme client:load />
 </header>
 <style>
 	header {
@@ -25,7 +27,8 @@ import { SITE_TITLE } from '../consts';
 		width: 100vw;
 		padding: 0 50px;
 		box-sizing: border-box;
-		background-color: #f1f1f1;
+		background-color: var(--theme-background);
+		color: var(--theme-color);
 		display: flex;
 		align-items: center;
 		margin: 0 auto;
@@ -33,6 +36,7 @@ import { SITE_TITLE } from '../consts';
 	}
 	.title {
 		font-size: 24px;
+	    color: var(--theme-color);
 	}
 	.nav {
 		margin-left: auto;
