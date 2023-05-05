@@ -1,28 +1,39 @@
 /**
  * @file 
  */
-import React, { useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import ICON_LIGHT from './icon/theme-light.svg'
 import ICON_DARK from './icon/theme-dark.svg'
 
 
 const ToggleTheme = () => {
-  const isDarkLocal = localStorage.getItem('isDark') 
-  console.log('lly-log -- isDarkLocal --->', isDarkLocal);
-  const isDark = useRef(isDarkLocal)
+  const isDarkLocal = !!localStorage.getItem('isDark')
+  const [isDark, setIsDark] = useState(isDarkLocal)
 
-  const toggle = () => {
+  const changeTheme = (type) => {
     const html = document.querySelector('html')
-    if(isDark.current) {
-      html.classList.remove('dark')
-      localStorage.removeItem('isDark')
-      isDark.current = false
-    } else {
-      html.classList.add('dark')
-      localStorage.setItem('isDark', 'true')
-      isDark.current = true
+    if(type === 'dark') {
+        html.classList.add('dark')
+        localStorage.setItem('isDark', 'true')
+        setIsDark(true)
+    }else {
+        html.classList.remove('dark')
+        localStorage.removeItem('isDark')
+        setIsDark(false)
     }
   }
+  const toggle = () => {
+    if(isDark) {
+        changeTheme('light')
+    } else {
+        changeTheme('dark')
+    }
+  }
+  useEffect(() => {
+    if(isDarkLocal) {
+        changeTheme('dark')
+    }
+  }, [])
 
   return <span 
     style={{
@@ -34,7 +45,7 @@ const ToggleTheme = () => {
     onClick={toggle}
   >
     {
-      isDark.current 
+      isDark
       ? <img src={ICON_LIGHT} alt="ICON_LIGHT"></img>
       : <img src={ICON_DARK} alt="ICON_DARK"></img>
     }
