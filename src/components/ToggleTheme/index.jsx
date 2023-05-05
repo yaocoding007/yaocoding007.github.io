@@ -7,32 +7,30 @@ import ICON_DARK from './icon/theme-dark.svg'
 
 
 const ToggleTheme = () => {
-  const isDarkLocal = !!localStorage.getItem('isDark')
-  const [isDark, setIsDark] = useState(isDarkLocal)
+  const themeLocal = localStorage.getItem('theme')
+  const preTheme = themeLocal ?? 'dark'
+  const [theme, setTheme] = useState(preTheme)
 
   const changeTheme = (type) => {
     const html = document.querySelector('html')
-    if(type === 'dark') {
-        html.classList.add('dark')
-        localStorage.setItem('isDark', 'true')
-        setIsDark(true)
+    setTheme(type)
+    if(type === 'light') {
+        html.classList.add('light')
+        localStorage.setItem('theme', 'light')
     }else {
-        html.classList.remove('dark')
-        localStorage.removeItem('isDark')
-        setIsDark(false)
+        html.classList.remove('light')
+        localStorage.setItem('theme', 'dark')
     }
   }
   const toggle = () => {
-    if(isDark) {
+    if(theme === 'dark') {
         changeTheme('light')
     } else {
         changeTheme('dark')
     }
   }
   useEffect(() => {
-    if(isDarkLocal) {
-        changeTheme('dark')
-    }
+    changeTheme(theme)
   }, [])
 
   return <span 
@@ -45,7 +43,7 @@ const ToggleTheme = () => {
     onClick={toggle}
   >
     {
-      isDark
+      theme === 'dark'
       ? <img src={ICON_LIGHT} alt="ICON_LIGHT"></img>
       : <img src={ICON_DARK} alt="ICON_DARK"></img>
     }
