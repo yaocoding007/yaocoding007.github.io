@@ -6,13 +6,13 @@
 
 /* 定义根作用域下的变量 */
 :root {
-	--theme-color: #ffffff;
-	--theme-background: #252525;
+	--theme-color: #444;
+	--theme-background: #fbfbfb;
 }
 /* 更改dark类名下变量的取值 */
 .light {
-	--theme-color: #444;
-	--theme-background: #fbfbfb;
+	--theme-color: #ffffff;
+	--theme-background: #252525;
 }
 html.dark {
 	color-scheme: dark;
@@ -22,7 +22,7 @@ body {
 	font-family: Verdana, sans-serif;
 	margin: auto;
 	padding: 20px;
-	max-width: 65ch;
+	max-width: 100ch;
 	text-align: left;
 	background-color: var(--theme-background);
 	color: var(--theme-color);

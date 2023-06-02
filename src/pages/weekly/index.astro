@@ -1,0 +1,40 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import Card from '@components/Card.astro';
+import { sortPosts } from '../../utils'
+const posts = sortPosts((await getCollection('weekly'))) 
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.content {
+				display: flex;
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="content">
+				{
+					posts.map((post) => (
+						<Card
+							time={new Date(post.data.pubDate)}
+							title={post.data.title}
+							desc={post.data.description}
+							link={`/weekly/${post.slug}/`}
+							image={post.data.heroImage}
+						/>
+					))
+				}
+			</section>
+		</main>
+	</body>
+</html>

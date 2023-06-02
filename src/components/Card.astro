@@ -4,39 +4,48 @@ export interface Props {
 	time: Date;
 	title: String;
 	desc: String;
+	image?: string;
 	link: any;
 }
 
-const { time, title, desc, link } = Astro.props;
+const { time, title, desc, link, image } = Astro.props;
 ---
 
-<div class="card">
-	<div class="time">
-		<FormattedDate date={new Date(time)} />
-	</div>
+<a class="card" href={link}>
+	{
+		image && <img src={image} alt="">
+	}
 	<div class="title">
-		<a href={link}>{title}</a>
+		<span >{title}</span>
+		<span class="time">
+			<FormattedDate date={new Date(time)} />
+		</span>
 	</div>
 	<div class="desc">{desc}</div>
-</div>
+</a>
 
 <style>
 	.card {
 		display: flex;
+		width: 50ch;
 		flex-direction: column;
 		background-color: var(--theme-background);
 		color: var(--theme-color);
 		border: 1px solid #eaeaea;
-		padding: 30px;
+		padding: 20px;
 		box-sizing: border-box;
 		font-size: 14px;
 		border-radius: 6px;
 		margin-bottom: 20px;
 	}
-	.card > div {
+	
+	.card > img {
 		margin-bottom: 10px;
 	}
 	.title {
 		font-size: 18px;
+	}
+	.time {
+		float: right;
 	}
 </style>

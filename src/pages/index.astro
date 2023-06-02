@@ -9,6 +9,7 @@ import database from '../database';
 import { sortPosts } from '../utils'
 
 const posts = sortPosts((await getCollection('blog')))
+const weeklyList = sortPosts((await getCollection('weekly')))
 ---
 
 <!DOCTYPE html>
@@ -23,6 +24,16 @@ const posts = sortPosts((await getCollection('blog')))
 			<p>
 				记录一些前端开发中的知识点，以及一些有趣的东西。
 			</p>
+			<h2 class="header">周刊</h2>
+			<ul>
+				{
+					weeklyList.map((post) => (
+						<li>
+							<a href={`/weekly/${post.slug}`}>{post.data.title}</a>
+						</li>
+					))
+				}
+			</ul>
 			<h2 class="header">最新的文章</h2>
 			<ul>
 				{
@@ -33,20 +44,7 @@ const posts = sortPosts((await getCollection('blog')))
 					))
 				}
 			</ul>
-			<h2 class="header">深度好文</h2>
-			<ul>
-				{
-					database.collection.map((post) => (
-						<li>
-							<a href={`${post.url}`} target="_blank">{post.title}</a>
-							<span>{post.desc}</span>
-							<FormattedDate date={new Date(post.date)} />
-							
-						</li>
-					))
-				}
-			</ul>
-			<h2 class="header">周刊推荐</h2>
+			<h2 class="header">资源推荐</h2>
 			<ul>
 				{
 					database.weekly.map((post) => (
