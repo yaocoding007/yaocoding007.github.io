@@ -2,9 +2,9 @@ import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
   website: "https://yaocoding007.github.io/",
-  author: "lly",
+  author: "栗禄尧",
   desc: "个人博客",
-  title: "LLY`S BLOG",
+  title: "栗栗载木",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerPage: 3,
