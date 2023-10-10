@@ -15,18 +15,7 @@ const { activeNav } = Astro.props;
   <div class="nav-container">
     <div class="top-nav-wrap">
       <a href="/" class="logo whitespace-nowrap">
-        {
-          LOGO_IMAGE.enable ? (
-            <img
-              src={`/assets/${LOGO_IMAGE.svg ? "logo.svg" : "logo.png"}`}
-              alt={SITE.title}
-              width={LOGO_IMAGE.width}
-              height={LOGO_IMAGE.height}
-            />
-          ) : (
-            SITE.title
-          )
-        }
+        { SITE.title }
       </a>
       <nav id="nav-menu">
         <button
@@ -127,6 +116,7 @@ const { activeNav } = Astro.props;
   }
   .logo {
     @apply absolute py-1 text-xl font-semibold sm:static sm:text-2xl;
+    color: rgba(var(--color-accent), var(--tw-text-opacity));
   }
   .hamburger-menu {
     @apply self-end p-2 sm:hidden;

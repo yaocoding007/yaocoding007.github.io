@@ -20,40 +20,21 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>🧑‍🚀 Hello, FE er!</h1>
 			<p>
-				记录一些前端开发中的知识点，以及一些有趣的东西。
+        焦虑的根源归结起来就两条: <b>想同时做很多事，又想立即看到效果。</b>
+        <p>
+          王小波说：人的一切痛苦，本质上都是对自己无能的愤怒。
+          焦虑的本质也契合这一观点：自己的欲望大于能力,
+          又极度缺乏耐心。焦虑就是因为欲望与能力之间差距过大
+        </p>
 			</p>
     </section>
-
     <Hr />
-
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-          <Hr />
-        </>
-      )
-    }
-
     <section id="recent-posts">
       <h2>Recent Posts</h2>
       <ul>
         {
           sortedPosts
-            .filter(({ data }) => !data.featured)
             .map(
               ({ data }, index) =>
                 index < 4 && (
