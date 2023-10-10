@@ -12,7 +12,6 @@ import slugify from "@utils/slugify";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 
 ---
 
@@ -21,7 +20,8 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
   <main id="main-content">
     <section id="hero">
 			<p>
-        焦虑的根源归结起来就两条: <b>想同时做很多事，又想立即看到效果。</b>
+        <span class="text-weight">焦虑</span>的根源归结起来就两条:
+        <b class="text-skin-accent">想同时做很多事，又想立即看到效果。</b>
         <p>
           王小波说：人的一切痛苦，本质上都是对自己无能的愤怒。
           焦虑的本质也契合这一观点：自己的欲望大于能力,
@@ -85,6 +85,17 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
   }
   .social-links {
     @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
+  }
+
+  .text-weight {
+    font-size: 20px;
+    padding-right: 8px;
+    font-weight: 500;
+    color: rgba(var(--color-accent), var(--tw-text-opacity));
+    text-underline-offset: 4px;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 2px;
   }
 
   /* ===== Featured & Recent Posts Sections ===== */
