@@ -11,8 +11,11 @@ description: 对官网`standalone`模式部署的详细解释
 
 > 刚开始使用nextjs写项目对于项目部署有一些疑惑的点，因此花了点时间做了整理。
 
+直接采用"standalone"模式打包，然后采用官方的dockerfile文件
 
-官方的 [Dockerfile demo ](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) 
+官方的 [Dockerfile demo ](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile)
+
+下面对官方的demo做个逐行的解释以及补充
 
 ```dockerfile
 # standalone 构建模式的部署
@@ -68,7 +71,7 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# 设置时区
+# 设置时区（官方demo的部署
 # 在使用 Docker 容器时，系统默认的时区就是 UTC 时间（0 时区），和我们实际需要的北京时间相差八个小时
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -100,25 +103,27 @@ CMD ["node", "server.js"]
 ```
 
 白话解释一遍就是, 整个构建流程分了三个阶段
+
 1. 下载依赖 `yarn install`
 2. 构建 `yarn build`
 3. 复制需要的资源文件，启动服务
 
 那为什么要分三个阶段呢, 以及什么才是需要的资源呢 下面来详细解释一下:
 
-首先 Dockerfile 中出现了多次 FROM 的语句，有些不解就去研究了一番
+Dockerfile 中出现了多次 FROM 的语句，有些不解就去研究了一番
 
 ```dockerfile
 FROM base AS deps
 FROM base AS builder
 FROM base AS runner
 ```
-资料显示这是一种多阶段构建的方式:  可以让不同的阶段干不同的事情，相互独立互不影响如上面的例子: 定义了三个阶段:
+
+资料显示这是一种多阶段构建的方式: 可以让不同的阶段干不同的事情，相互独立互不影响如上面的例子: 定义了三个阶段:
 
 1. `deps` 阶段用于安装一些通用的依赖项
 2. `builder` 阶段用于 安装项目的依赖项
 3. `runner` 阶段用于 运行服务
-   
+
 最终生成的镜像`只包含了最后一个阶段`的内容 前两个阶段的内容不会被打包到最终的镜像中，可以有效地减小镜像的体积，因为在构建过程中可以丢弃不必要的文件和依赖项。
 
 在这个示例中：
@@ -127,7 +132,9 @@ FROM base AS runner
 
 阶段二中的 `FROM` 指令定义的 `builder` 阶段只复制了项目的代码和依赖项，而没有安装依赖项，因此可以避免将不必要的依赖项打包到镜像中。最终生成的镜像只包含了构建好的应用程序和必要的依赖项，从而减小了镜像的体积。
 
-**不同阶段的文件传递方式:**
+最终的镜像资源只是最后一个阶段里的， 那么不同阶段之间就需要资源的传递
+
+**不同阶段的文件传递方式就是下面这条指令:**
 
 `COPY --from`指令从另一个镜像中复制文件到当前镜像中
 具体语法: `COPY --from=<image> <src> <dest>`
@@ -135,25 +142,22 @@ FROM base AS runner
 **构建结果**
 ![next构建出的镜像](/images/next-image.png)
 
+从构建结果可以看出, 最终镜像里包含的内容只有
 
-从构建结果可以看出, 最终镜像里包含的内容只有 
 1. public 目录
 2. 打包构建出的 .next/standalone
 3. .next/static
 
-可以看出并不是包括所有的 代码文件
-
+可以看出并不是包括所有的代码文件, 只是第三阶段复制的那一部分
 
 **本地构建验证**
 
 1. 构建镜像 `docker build -t app:1.0 .`
 2. 运行: `docker run -p 3000:3000 app:1.0`
 
-#### 语法解释
+### 语法解释
 
-**WORKDIR:**
-
-`WORKDIR` 是 Dockerfile 中的一个指令，用于指定容器中的工作目录。在 Docker 容器中运行应用程序时，可以使用 `WORKDIR` 指令指定应用程序的工作目录，以便在容器中执行命令时，可以相对于该目录进行操作。
+**WORKDIR:** 是 Dockerfile 中的一个指令，用于指定容器中的工作目录。在 Docker 容器中运行应用程序时，可以使用 `WORKDIR` 指令指定应用程序的工作目录，以便在容器中执行命令时，可以相对于该目录进行操作。
 
 在 Dockerfile 中，可以使用相对路径或绝对路径指定工作目录。如果使用相对路径，则相对于上一个 `WORKDIR` 指令或 `FROM` 指令指定的基础镜像的根目录。
 
@@ -175,13 +179,16 @@ CMD ["yarn", "start"]
 
 在这个示例中，我们使用 `WORKDIR` 指令指定了容器中的工作目录为 `/app`，这样在容器中运行命令时，就可以相对于 `/app` 目录进行操作，例如，使用 `yarn start` 命令启动应用程序。
 
+<hr/>
 
 **COPY 跟 ADD 的区别**
 GitHub Copilot: `COPY` 和 `ADD` 都是 Dockerfile 中用于复制文件的指令，但它们之间有一些区别。
 `COPY` 指令的语法如下：
+
 ```
 COPY <src> <dest>
 ```
+
 其中，
 `<src>` 表示要复制的文件或目录的路径，可以是相对路径或绝对路径。
 `<dest>` 表示要将文件或目录复制到容器中的路径，必须是绝对路径。
@@ -196,10 +203,11 @@ ADD <src> <dest>
 
 虽然 `ADD` 指令比 `COPY` 指令功能更强大，但在实际使用中，建议尽可能使用 `COPY` 指令，因为它更简单、更可预测，而且不会自动解压缩文件或从 URL 下载文件，避免了一些潜在的安全风险。
 
+<hr/>
 
 ## 附带一份 pnpm 的 配置
 
-```Dockerfile
+```dockerfile
 
 # 指定基础镜像版本，确保每次构建都是幂等的
 FROM node:18-alpine AS base
