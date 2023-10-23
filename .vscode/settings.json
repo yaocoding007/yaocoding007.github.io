@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    ".obsidian": true,
+    ".github": true,
+    ".husky": true,
+    ".jampack": true,
+    "dist": true,
+    ".astro": true
+  }
+}

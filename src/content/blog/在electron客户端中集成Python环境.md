@@ -2,7 +2,7 @@
 pubDatetime: 2023-10-23
 title: 在electron客户端中集成Python环境
 featured: true
-draft: true
+draft: false
 tags:
   - electron
 description: 提供独立可用的python环境在 electron 客户端中
