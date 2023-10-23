@@ -1,5 +1,5 @@
 ---
-pubDatetime: 2023-10-3
+pubDatetime: 2023-10-23
 title: 在electron客户端中集成Python环境
 featured: true
 draft: true
