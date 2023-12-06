@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>move</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #btn {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background-color: royalblue;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="btn">drag</div>
+    <script>
+        var btn = document.querySelector('#btn');
+        var startX, startY, initialOffsetX, initialOffsetY;
+        btn.addEventListener('mousedown', function(event) {
+            startX = event.pageX;
+            startY = event.pageY;
+            initialOffsetX = btn.offsetLeft;
+            initialOffsetY = btn.offsetTop;
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', stop);
+        });
+        function move(event) {
+            var dx = event.pageX - startX;
+            var dy = event.pageY - startY;
+            btn.style.left = initialOffsetX + dx + 'px';
+            btn.style.top = initialOffsetY + dy + 'px';
+        }
+        function stop() {
+            document.removeEventListener('mousemove', move);
+            document.removeEventListener('mouseup', stop);
+        }
+    </script>
+</body>
+</html>
