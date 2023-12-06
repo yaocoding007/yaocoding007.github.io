@@ -2,7 +2,7 @@
 pubDatetime: 2023-12-06
 title: 拖动
 featured: true
-draft: true
+draft: false
 tags:
   - javascript
 description: 拖动总结
@@ -12,3 +12,5 @@ description: 拖动总结
 > 正好总结一下啊
 
 <iframe src="/demo/drag.html"></iframe>
+
+![拖动](/demo/images/drag.excalidraw.png)
