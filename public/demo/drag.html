@@ -12,7 +12,7 @@
         #btn {
             position: fixed;
             top: 0;
-            right: 0;
+            left: 100px;
             width: 40px;
             height: 40px;
             background-color: royalblue;
@@ -28,24 +28,42 @@
     <div id="btn">drag</div>
     <script>
         var btn = document.querySelector('#btn');
-        var startX, startY, initialOffsetX, initialOffsetY;
+        var disY;
+
+        /**
+         * 大致的拖动思路就是:
+         * btn元素的 mousedown 事件记录鼠标初始位置距离元素左上角的距离 disY
+         * document的 mousemove 事件计算鼠标移动的距离
+         * 移动时的位置计算: 鼠标移动的距离 - disY
+         */
+
         btn.addEventListener('mousedown', function(event) {
-            startX = event.pageX;
-            startY = event.pageY;
-            initialOffsetX = btn.offsetLeft;
-            initialOffsetY = btn.offsetTop;
+            event.preventDefault();
+            // 鼠标初始位置距离元素左上角的距离
+            disY = event.pageY - btn.offsetTop;
             document.addEventListener('mousemove', move);
             document.addEventListener('mouseup', stop);
+            document.addEventListener('mouseleave', stop);
         });
         function move(event) {
-            var dx = event.pageX - startX;
-            var dy = event.pageY - startY;
-            btn.style.left = initialOffsetX + dx + 'px';
-            btn.style.top = initialOffsetY + dy + 'px';
+            // 鼠标移动的距离
+            let roughY = event.pageY - disY;
+            let y = roughY;
+            // 计算边界
+            if(roughY > 0) {
+                // 下边界
+                let max = document.documentElement.clientHeight - btn.offsetHeight;
+                y = roughY > max ? max : roughY;
+            }else {
+                // 上边界
+                y = 0;
+            }
+            btn.style.top = y + 'px';
         }
         function stop() {
             document.removeEventListener('mousemove', move);
             document.removeEventListener('mouseup', stop);
+            document.removeEventListener('mouseleave', stop);
         }
     </script>
 </body>
