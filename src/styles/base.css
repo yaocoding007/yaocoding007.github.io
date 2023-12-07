@@ -123,6 +123,11 @@
   pre > code {
     white-space: pre;
   }
+
+  iframe {
+    @apply w-full;
+    border: 1px solid #ccc;
+  }
 }
 
 @layer components {
