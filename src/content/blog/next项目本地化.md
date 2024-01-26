@@ -248,7 +248,9 @@ config.module.rules.push({
 
 1. `require.resolve("url-loader")`
 2. `next export -o turing-ada` 可以指定输出目录
-3. webpack 的一些知识点
+3. row-loader 获取文件内容
+   1. `import bar from 'raw-loader!./bar';` 可以直接获取文件的所有内容字符串
+4. webpack 的一些知识点
 
 ### `url-loader`
 
