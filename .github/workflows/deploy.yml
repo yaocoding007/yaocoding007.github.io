@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       # 使用缓存以加快依赖安装（根据需要启用）
       # - name: Cache node modules
-      #   uses: actions/cache@v3
+      #   uses: actions/cache@v4
       #   with:
       #     path: ~/.npm
       #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -31,10 +31,11 @@ jobs:
       #       ${{ runner.os }}-node-
 
       - name: Install, build, and upload your site
-        uses: withastro/action@v0 # 确保这是最新版本
-        # 如果需要，添加额外的参数，如路径或者构建选项
-        # with:
-        #   args: your-build-args
+        uses: withastro/action@v3
+        with:
+          path: .
+          node-version: 18
+          package-manager: pnpm
 
   deploy:
     needs: build
@@ -45,5 +46,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1 # 确保这是最新版本
+        uses: actions/deploy-pages@v4
 
