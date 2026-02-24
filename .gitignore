@@ -35,3 +35,5 @@ pnpm-debug.log*
 .pnp.*
 
 .obsidian/
+
+.pnpm-store/
