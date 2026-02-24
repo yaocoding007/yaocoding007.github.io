@@ -13,7 +13,16 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
-    sitemap(),
+    sitemap({
+      filter: (page) => {
+        // 排除可能有问题的页面
+        return !page.includes('/404') && 
+               !page.includes('/.well-known/') &&
+               !page.includes('/api/');
+      },
+      changefreq: 'weekly',
+      priority: 0.7,
+    }),
   ],
   markdown: {
     remarkPlugins: [
