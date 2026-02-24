@@ -7,7 +7,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astro-paper.pages.dev/", // replace this with your deployed domain
+  site: "https://yaocoding007.github.io/", // 修正为实际的GitHub Pages域名
   integrations: [
     tailwind({
       applyBaseStyles: false,
