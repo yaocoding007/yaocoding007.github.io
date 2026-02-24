@@ -21,21 +21,27 @@ jobs:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
       
-      # 使用缓存以加快依赖安装（根据需要启用）
-      # - name: Cache node modules
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          path: .
+          version: 8.15.0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
           node-version: 18
-          package-manager: pnpm
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Build site
+        run: pnpm run build
+      
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
   deploy:
     needs: build
